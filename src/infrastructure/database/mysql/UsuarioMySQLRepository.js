@@ -41,9 +41,7 @@ class UsuarioMySQLRepository extends UsuarioRepository {
   }
 
   async obtenerTodos() {
-    const [rows] = await connection.execute(
-      'SELECT id, dni, nombres, apellidos, correo, celular, rol FROM usuarios'
-    );
+    const [rows] = await connection.execute('SELECT id, dni, nombres, apellidos, correo, celular, rol FROM usuarios');
     return rows;
   }
 
@@ -64,6 +62,15 @@ class UsuarioMySQLRepository extends UsuarioRepository {
     );
     return result.affectedRows > 0;
   }
+
+  async eliminarCitasPorUsuario(usuarioId) {
+  const [result] = await connection.execute(
+    'DELETE FROM citas WHERE usuario_id = ?',
+    [usuarioId]
+  );
+  return result.affectedRows > 0;
+}
+
 }
 
 module.exports = UsuarioMySQLRepository;

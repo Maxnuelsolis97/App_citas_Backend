@@ -62,10 +62,10 @@ const obtenerUsuarios = async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Error al obtener usuarios',
-      ...(process.env.NODE_ENV === 'development' && {
-        details: error.message
-      })
-    });
+      details: error.message,
+      stack: error.stack
+});
+
   }
 };
 //Método para obtener un usuario específico
@@ -104,9 +104,53 @@ const obtenerUsuarioPorId = async (req, res) => {
     });
   }
 };
+const actualizarUsuario = async (req, res) => {
+  try {
+    const usuarioActualizado = await usuarioService.actualizarUsuario(req.params.id, req.body);
+
+    res.json({
+      success: true,
+      message: 'Usuario actualizado correctamente',
+      data: usuarioActualizado
+    });
+
+  } catch (error) {
+    console.error('Error en actualizarUsuario:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al actualizar usuario',
+      ...(process.env.NODE_ENV === 'development'
+        ? { details: error.message }
+        : {})
+    });
+  }
+};
+
+const eliminarUsuario = async (req, res) => {
+  try {
+    await usuarioService.eliminarUsuario(req.params.id);
+
+    res.json({
+      success: true,
+      message: 'Usuario eliminado correctamente'
+    });
+
+  } catch (error) {
+    console.error('Error en eliminarUsuario:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al eliminar usuario',
+      ...(process.env.NODE_ENV === 'development'
+        ? { details: error.message }
+        : {})
+    });
+  }
+};
 
 module.exports = {
   crearUsuario,
   obtenerUsuarios,
-  obtenerUsuarioPorId
-};
+  obtenerUsuarioPorId,
+  actualizarUsuario,
+  eliminarUsuario
+}

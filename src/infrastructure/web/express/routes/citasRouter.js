@@ -5,7 +5,8 @@ const router = express.Router();
 const {
   obtenerCitas,
   crearCita,
-  cancelarCita
+  cancelarCita,
+  obtenerCitasDelUsuario
 } = require('../controllers/citasController');
 const verifyToken = require('../middlewares/verifyToken');
 
@@ -19,5 +20,6 @@ router.post('/', crearCita);
 
 // PUT /citas/:id/cancelar - Cancelar cita específica (mejor práctica REST)
 router.put('/:id/cancelar', cancelarCita);
+router.get('/mis-citas', obtenerCitasDelUsuario);
 
 module.exports = router;

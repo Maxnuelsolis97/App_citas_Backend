@@ -1,4 +1,5 @@
 // src/infrastructure/web/express/controllers/citasController.js
+const connection = require('../../../database/mysql/db');
 const CitaService = require('../../../../core/services/CitaService');
 const CitaMySQLRepository = require('../../../database/mysql/CitaMySQLRepository');
 
@@ -64,8 +65,33 @@ const cancelarCita = async (req, res) => {
   }
 };
 
+const obtenerCitasDelUsuario = async (req, res) => {
+  try {
+    const usuarioId = req.usuario.id; // Este campo lo agrega el middleware verifyToken
+
+    const [result] = await connection.execute(
+      'SELECT * FROM citas WHERE usuario_id = ? ORDER BY fecha DESC',
+      [usuarioId]
+    );
+
+    return res.status(200).json({
+      success: true,
+      total: result.length,
+      citas: result
+    });
+
+  } catch (error) {
+    console.error('Error al obtener citas del usuario:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Error al obtener las citas del usuario'
+    });
+  }
+};
+
 module.exports = {
   obtenerCitas,
   crearCita,
-  cancelarCita
+  cancelarCita,
+  obtenerCitasDelUsuario
 };
