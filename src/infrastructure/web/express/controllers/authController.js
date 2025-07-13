@@ -16,7 +16,7 @@ const login = async (req, res) => {
     );
 
     if (users.length === 0 || !(await bcrypt.compare(contraseña, users[0].contraseña))) {
-      return res.status(401).json({ error: 'Credenciales inválidas' }); // Mensaje genérico
+      return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
     const usuario = users[0];

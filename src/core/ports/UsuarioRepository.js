@@ -1,4 +1,3 @@
-// src/core/ports/UsuarioRepository.js
 class UsuarioRepository {
   async guardar(usuario) {
     throw new Error('Método no implementado');

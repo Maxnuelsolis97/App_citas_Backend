@@ -1,45 +1,50 @@
-// src/infrastructure/web/express/controllers/usuariosController.js
 const UsuarioService = require('../../../../core/services/UsuarioService');
 const UsuarioMySQLRepository = require('../../../../infrastructure/database/mysql/UsuarioMySQLRepository');
 
-
-// Dependencias
 const usuarioRepository = new UsuarioMySQLRepository();
 const usuarioService = new UsuarioService(usuarioRepository);
 
 const crearUsuario = async (req, res) => {
   try {
-    // El servicio maneja toda la lógica
-    const usuarioRegistrado = await usuarioService.registrarUsuario(req.body);
+    // Extraemos todos los campos necesarios
+    const { dni, nombres, apellidos, correo, celular, contraseña } = req.body;
+
+    // Validación completa
+    if (!dni) throw new Error('DNI es requerido');
+    if (!nombres) throw new Error('Nombres son requeridos');
+    if (!apellidos) throw new Error('Apellidos son requeridos');
+    if (!correo) throw new Error('Correo es requerido');
+    if (!celular) throw new Error('Celular es requerido');
+    if (!contraseña) throw new Error('Contraseña es requerida');
+
+    const usuario = {
+      dni,
+      nombres,
+      apellidos,
+      correo,
+      celular,
+      contraseña,
+      rol: "paciente" // Rol por defecto
+    };
+
+    const usuarioRegistrado = await usuarioService.registrarUsuario(usuario);
     
     res.status(201).json({
       success: true,
-      message: 'Usuario registrado exitosamente',
       data: {
-        id: usuarioRegistrado.id,
         dni: usuarioRegistrado.dni,
         nombres: usuarioRegistrado.nombres,
-        correo: usuarioRegistrado.correo,
-        rol: usuarioRegistrado.rol
+        correo: usuarioRegistrado.correo
       }
     });
 
   } catch (error) {
-    console.error('Error en crearUsuario:', error);
-    
-    // Manejo de errores específicos
-    const statusCode = error.message.includes('ya existe') ? 409 : 400;
-    
-    res.status(statusCode).json({
+    res.status(400).json({
       success: false,
-      error: error.message,
-      ...(process.env.NODE_ENV === 'development' && {
-        stack: error.stack
-      })
+      error: error.message
     });
   }
 };
-
 const obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await usuarioService.obtenerTodosLosUsuarios();
@@ -65,7 +70,6 @@ const obtenerUsuarios = async (req, res) => {
       details: error.message,
       stack: error.stack
 });
-
   }
 };
 //Método para obtener un usuario específico

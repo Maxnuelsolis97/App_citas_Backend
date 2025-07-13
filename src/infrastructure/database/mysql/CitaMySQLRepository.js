@@ -1,4 +1,3 @@
-// src/infrastructure/database/mysql/CitaMySQLRepository.js
 const CitaRepository = require('../../../core/ports/CitaRepository');
 const connection = require('./db');
 
@@ -37,7 +36,7 @@ class CitaMySQLRepository extends CitaRepository {
       valores.push(cambios[key]);
     });
 
-    valores.push(id); // Añadir ID al final para el WHERE
+    valores.push(id);
 
     const [result] = await connection.execute(
       `UPDATE citas SET ${campos.join(', ')} WHERE id = ?`,

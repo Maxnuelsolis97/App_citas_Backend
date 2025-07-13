@@ -1,4 +1,3 @@
-// src/core/services/UsuarioService.js
 const Usuario = require('../domain/Usuario');
 
 class UsuarioService {
@@ -43,7 +42,6 @@ class UsuarioService {
       throw new Error('Usuario no encontrado');
     }
 
-    // Actualizar solo campos permitidos
     const camposPermitidos = ['nombres', 'apellidos', 'celular'];
     Object.keys(datosActualizacion).forEach(key => {
       if (camposPermitidos.includes(key)) {

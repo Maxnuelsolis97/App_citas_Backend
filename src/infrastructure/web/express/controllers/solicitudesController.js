@@ -1,9 +1,7 @@
 const connection = require('../../../database/mysql/db');
-
 const solicitarPostergacion = async (req, res) => {
   const { cita_id, motivo } = req.body;
 
-  // Validación
   if (!cita_id || !motivo) {
     return res.status(400).json({
       success: false,

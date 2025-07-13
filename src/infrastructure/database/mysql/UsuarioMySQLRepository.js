@@ -1,4 +1,3 @@
-// src/infrastructure/database/mysql/UsuarioMySQLRepository.js
 const UsuarioRepository = require('../../../core/ports/UsuarioRepository');
 const connection = require('./db');
 

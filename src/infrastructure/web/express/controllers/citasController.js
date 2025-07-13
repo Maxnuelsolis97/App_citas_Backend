@@ -1,13 +1,10 @@
-// src/infrastructure/web/express/controllers/citasController.js
 const connection = require('../../../database/mysql/db');
 const CitaService = require('../../../../core/services/CitaService');
 const CitaMySQLRepository = require('../../../database/mysql/CitaMySQLRepository');
 
-// Inicialización de dependencias
 const citaRepository = new CitaMySQLRepository();
 const citaService = new CitaService(citaRepository);
 
-// Obtener todas las citas 
 const obtenerCitas = async (req, res) => {
   try {
     const citas = await citaService.obtenerCitas();
@@ -26,7 +23,6 @@ const obtenerCitas = async (req, res) => {
   }
 };
 
-// Crear nueva cita
 const crearCita = async (req, res) => {
   try {
     const nuevaCita = await citaService.crearCita(req.body);
@@ -47,7 +43,6 @@ const crearCita = async (req, res) => {
   }
 };
 
-// Cancelar cita
 const cancelarCita = async (req, res) => {
   try {
     await citaService.cancelarCita(req.params.id);
@@ -67,7 +62,7 @@ const cancelarCita = async (req, res) => {
 
 const obtenerCitasDelUsuario = async (req, res) => {
   try {
-    const usuarioId = req.usuario.id; // Este campo lo agrega el middleware verifyToken
+    const usuarioId = req.usuario.id;
 
     const [result] = await connection.execute(
       'SELECT * FROM citas WHERE usuario_id = ? ORDER BY fecha DESC',
@@ -89,9 +84,29 @@ const obtenerCitasDelUsuario = async (req, res) => {
   }
 };
 
+const obtenerCitaProxima = async (req, res) => {
+  try {
+    const usuarioId = req.usuario.id;
+
+    const [result] = await connection.execute(
+      'SELECT * FROM citas WHERE usuario_id = ? AND estado = "pendiente" ORDER BY fecha ASC, hora ASC LIMIT 1',
+      [usuarioId]
+    );
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'No tienes una cita activa' });
+    }
+
+    res.json(result[0]);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener la próxima cita' });
+  }
+};
+
 module.exports = {
   obtenerCitas,
   crearCita,
   cancelarCita,
-  obtenerCitasDelUsuario
+  obtenerCitasDelUsuario,
+  obtenerCitaProxima
 };

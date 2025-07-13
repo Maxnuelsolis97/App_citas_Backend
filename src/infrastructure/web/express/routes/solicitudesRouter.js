@@ -15,5 +15,4 @@ router.put('/:id', gestionarSolicitud);
 router.get('/pendientes', listarSolicitudesPendientes);
 router.get('/historial', listarSolicitudesHistorial);
 
-
 module.exports = router;

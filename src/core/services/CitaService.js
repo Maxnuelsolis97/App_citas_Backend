@@ -1,4 +1,3 @@
-// src/core/services/CitaService.js
 const Cita = require('../domain/Cita');
 
 class CitaService {
@@ -8,11 +7,11 @@ class CitaService {
 
   async obtenerCitas() {
     const citas = await this.citaRepository.obtenerTodas();
-    return citas.map(cita => new Cita(cita)); // Convertir a instancias de entidad
+    return citas.map(cita => new Cita(cita));
   }
 
   async crearCita(datos) {
-    const cita = new Cita(datos); // Usa la entidad para validación
+    const cita = new Cita(datos);
     return await this.citaRepository.guardar(cita);
   }
 
@@ -38,7 +37,7 @@ class CitaService {
     if (!citaExistente) throw new Error('Cita no encontrada');
     
     const cita = new Cita(citaExistente);
-    cita.solicitarPostergacion(motivo); // Usa la lógica de la entidad
+    cita.solicitarPostergacion(motivo);
     
     return await this.citaRepository.actualizar(
       cita.id, 

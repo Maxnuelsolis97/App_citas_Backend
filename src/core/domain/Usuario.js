@@ -8,15 +8,15 @@ class Usuario {
     this.apellidos = apellidos;
     this.correo = correo;
     this.celular = celular;
-    this._contraseña = contraseña; // contraseña en texto plano solo para registro
-    this.contraseña = null; // aquí se guarda el hash
+    this._contraseña = contraseña;
+    this.contraseña = null;
     this.rol = rol;
     this.creadoEn = new Date();
     this.actualizadoEn = new Date();
 
     if (validar) {
       this.validar();
-      this.hashearContraseña(); // solo si estamos registrando
+      this.hashearContraseña();
     }
   }
 
