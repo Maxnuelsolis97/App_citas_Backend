@@ -3,13 +3,13 @@ const connection = require('./db');
 
 class UsuarioMySQLRepository extends UsuarioRepository {
   async guardar(usuario) {
-    await usuario.hashearContraseña();
+    await usuario.hashearContrasena();
     const [result] = await connection.execute(
       `INSERT INTO usuarios 
-       (dni, nombres, apellidos, correo, celular, contraseña, rol) 
+       (dni, nombres, apellidos, correo, celular, contrasena, rol) 
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [usuario.dni, usuario.nombres, usuario.apellidos, 
-       usuario.correo, usuario.celular, usuario.contraseña, usuario.rol]
+       usuario.correo, usuario.celular, usuario.contrasena, usuario.rol]
     );
     usuario.id = result.insertId;
     return usuario;

@@ -4,7 +4,7 @@
   "main": "src/infrastructure/web/express/server.js",
   "scripts": {
     "start": "node src/infrastructure/web/express/server.js",
-    "dev": "nodemon src/infrastructure/web/express/server.js"
+    "dev":  "nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -7,7 +7,7 @@ const usuarioService = new UsuarioService(usuarioRepository);
 const crearUsuario = async (req, res) => {
   try {
     // Extraemos todos los campos necesarios
-    const { dni, nombres, apellidos, correo, celular, contraseña } = req.body;
+    const { dni, nombres, apellidos, correo, celular, contrasena } = req.body;
 
     // Validación completa
     if (!dni) throw new Error('DNI es requerido');
@@ -15,7 +15,7 @@ const crearUsuario = async (req, res) => {
     if (!apellidos) throw new Error('Apellidos son requeridos');
     if (!correo) throw new Error('Correo es requerido');
     if (!celular) throw new Error('Celular es requerido');
-    if (!contraseña) throw new Error('Contraseña es requerida');
+    if (!contrasena) throw new Error('Contrasena es requerida');
 
     const usuario = {
       dni,
@@ -23,7 +23,7 @@ const crearUsuario = async (req, res) => {
       apellidos,
       correo,
       celular,
-      contraseña,
+      contrasena,
       rol: "paciente" // Rol por defecto
     };
 

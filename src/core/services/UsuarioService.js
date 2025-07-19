@@ -16,12 +16,12 @@ class UsuarioService {
     return await this.repository.guardar(usuario);
   }
 
-  async autenticar(correo, contraseñaPlana) {
+  async autenticar(correo, contrasenaPlana) {
     const usuario = await this.repository.buscarPorCorreo(correo);
     if (!usuario) return null;
     
     const usuarioEntidad = new Usuario(usuario);
-    const coincide = await usuarioEntidad.compararContraseña(contraseñaPlana);
+    const coincide = await usuarioEntidad.compararContrasena(contrasenaPlana);
     
     return coincide ? usuarioEntidad : null;
   }

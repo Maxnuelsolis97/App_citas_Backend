@@ -5,14 +5,16 @@ const {
   crearCita,
   cancelarCita,
   obtenerCitasDelUsuario,
-  obtenerCitaProxima
+  obtenerCitaProxima,
+  obtenerEspecialidades
 } = require('../controllers/citasController');
 const verifyToken = require('../middlewares/verifyToken');
 
 router.use(verifyToken);
 router.get('/', obtenerCitas);
 router.post('/', crearCita);
-router.put('/:id/cancelar', cancelarCita);
+router.post('/cancelar', cancelarCita);
+router.get('/especialidades', obtenerEspecialidades);
 router.get('/mis-citas', obtenerCitasDelUsuario);
 router.get('/proxima', obtenerCitaProxima);
 

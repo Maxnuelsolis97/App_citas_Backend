@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
-app.use('/', authRouter);
+app.use('/auth', authRouter);
 app.use('/solicitudes-postergacion', solicitudesRouter);
 app.use('/especialidades', especialidadesRouter);
 
